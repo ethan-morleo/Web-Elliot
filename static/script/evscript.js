@@ -329,10 +329,8 @@ bd_BS_check.addEventListener('change',  (e)=>{
    })
 ok_button.addEventListener('click', (e)=>{
     e.preventDefault()
-    console.log(document.getElementById('top_k').value)
     if(document.getElementById('n_k').value<=0 || parseInt(document.getElementById('n_k').value)>parseInt(document.getElementById('top_k').value) ) {
         alert('INVALID NUMBER OF CUTOFFS')
-        console.log(document.getElementById('n_k').value)
     }else{
         if(resetButton.hidden){
         resetButton.hidden =false
@@ -509,9 +507,6 @@ myform.addEventListener('submit', (e)=>{
          data.append('rev_tresh', 0);
      }
 
-    for (var pair of data.entries()) {
-    console.log(pair[0]+ ' - ' + pair[1]);
-}
 
     fetch('/api/v1/evaluation', {
         method: 'POST',
