@@ -1,0 +1,337 @@
+{%extends 'base.html'%}
+
+{%block head%}
+<link rel="stylesheet" href="../static/css/evaluation.css"
+{%endblock%}
+
+      {%block body%}
+      <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <span class="fs-4">Web Elliot</span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link">Data preprocessing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Recommendation</a></li>
+            <li class="nav-item"><a href="/evaluation"  class="nav-link active" aria-current="page" >Evaluation</a></li>
+        </ul>
+    </header>
+</div>
+<div class="b-example-divider"></div>
+
+     <div id="main_div">
+         <h1 id="title">Evaluation Configuration:</h1>
+        <div id="form_div">
+            <form id="main_form">
+                <div id="inputFileContainer">
+                    <div id="train_div">
+                        <label for="train_dataset">Train:</label>
+                        <input type="file" name="train_dataset" id="train_dataset" class="sendFile">
+                    </div>
+                    <div id="test_div">
+                        <label for="test_dataset">Test:</label>
+                        <input type="file" name="test_dataset" id="test_dataset" class="sendFile">
+                    </div>
+                    <div id="recommender_div">
+                        <label for="recs_dataset">Recs:</label>
+                        <input type="file" name="recs_dataset" id="recs_dataset" class="sendFile">
+                    </div>
+                </div>
+                <div id="ipotesi">
+                    <label class="ipotesiTest" for="paired_t_test">PairedtTest</label>
+                    <input  type="checkbox" name="t_test" id="paired_t_test">
+                    <label class="ipotesiTest" for="wilcoxon_test">WilcoxonTest</label>
+                    <input  type="checkbox" name="wilcoxon" id="wilcoxon_test">
+                </div>
+
+                <div id ='cutoff_k'>
+                        <div id="div_tresh">
+                            <label for="treshold" id="tresh_label">RELEVANCE TRESHOLD</label>
+                            <input type="number" id="treshold" name="treshold" value="rev_treshold">
+                        </div>
+                        <div id="div_top_k">
+                            <label for="top_k" id="top_k_label">TOP_K</label>
+                            <input type="number" id="top_k" name="top_k" value="top_k_value">
+                        </div>
+                        <div id="div_cutoff">
+                            <label for="cutoffs" id="cutoffLabel">CUTOFFS</label>
+                        <input type="checkbox"  id="cutoffs" name="cutoffs" value="cutoffs">
+                        <input type="number"  id="n_k" name="n_k" placeholder="how many?" hidden>
+                        <button id="ok"  name="ok" hidden>ok</button>
+                        <button id="reset"  name="reset" hidden>X</button>
+                        <div id="cutoffInput" hidden>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="container">
+                <div id="main_simple_box">
+                    <button id="simple_metrics" class="mainButton">Simple Metrics</button>
+                    <div id="simple_box" hidden>
+                        <div class="simple_metrics_box">
+                            <button id="simple_accuracy" class="metricButton">Accuracy</button>
+                            <div id="simple_accuracy_metrics_box" class="hiddenMetrics" hidden>
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="AUC" value="AUC" >AUC
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="GAUC" value="GAUC" >GAUC
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="LAUC" value="LAUC" >LAUC
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="F1" value="F1" >F1
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="HR" value="HR" >HR
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="MAP" value="MAP" >MAP
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="MAR" value="MAR" >MAR
+                                <br />
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="MRR" value="MRR" >MRR
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="nDCG" value="nDCG" >nDCG
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="Precision" value="Precision" >Precision
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="Recall" value="Recall" >Recall
+
+                            </div>
+
+                        </div>
+
+                       <div class="simple_metrics_box">
+                            <button id="simple_bias" class="metricButton">Bias</button>
+                            <div id="simple_bias_metrics_box" class="hiddenMetrics" hidden>
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="ACLT" value="ACLT">ACLT
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="APLT" value="APLT">APLT
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="ARP" value="ARP">ARP
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="PopREO" value="PopREO">PopREO
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="PopRSP" value="PopRSP">PopRSP
+                            </div>
+                       </div>
+
+                       <div class="simple_metrics_box">
+                            <button id="simple_coverage" class="metricButton">Coverage</button>
+                            <div id="simple_coverage_metrics_box" class="hiddenMetrics" hidden>
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="ItemCoverage" value="ItemCoverage">ItemCoverage
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="NumRetrieved" value="NumRetrieved">NumRetrieved
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="UserCoverage" value="UserCoverage">UserCoverage
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="UserCoverageATN" value="UserCoverageATN">UserCoverageATN
+                            </div>
+                       </div>
+
+                        <div class="simple_metrics_box">
+                            <button id="simple_diversity" class="metricButton">Diversity</button>
+                            <div id="simple_diversity_metrics_box" class="hiddenMetrics" hidden>
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="Gini" value="Gini">Gini
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="ShannonEntropy" value="SEntropy">ShannonEntropy
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="SRecall" value="SRecall">SRecall
+                            </div>
+                        </div>
+
+                        <div class="simple_metrics_box">
+                            <button id="simple_rating" class="metricButton">Rating</button>
+                            <div id="simple_rating_metrics_box" class="hiddenMetrics" hidden>
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="MAE" value="MAE">MAE
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="MSE" value="MSE">MSE
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="RMSE" value="RMSE">RMSE
+
+                            </div>
+                        </div>
+                        <div class="simple_metrics_box">
+                            <button id="simple_novelty" class="metricButton">Novelty</button>
+                            <div id="simple_novelty_metrics_box" class="hiddenMetrics" hidden>
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="EFD" value="EFD">EFD
+                                <input type="checkbox" class="inputCheck" name="simple_metrics" id="EPC" value="EPC">EPC
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="main_complex_box">
+                    <button id="complex_metrics" class="mainButton">Complex Metrics</button>
+                    <div id="complex_box" hidden>
+                        <div class="complex_metrics_box">
+                        <button id="complex_accuracy" class="metricButton">Accuracy</button>
+                        <div id="complex_accuracy_box" class="hiddenMetrics" hidden>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="DSC" value="DSC">DSC
+                            <input type="number" name="beta" id="beta" placeholder="input a value for beta (es:1)" hidden>
+                            <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="" value="">ExtendedF1
+                        </div>
+                        </div>
+                        <div class="complex_metrics_box">
+                        <button id="complex_bias" class="metricButton">Bias</button>
+                        <div id="complex_bias_box" class="hiddenMetrics" hidden>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="ExtendedPopREO" value="ExtendedPopreo">Extended PopREO
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="ExtendedPopRSP" value="ExtendendPoprsp">ExtendedPopRSP
+                        </div>
+                        </div>
+                        <div class="complex_metrics_box" >
+                        <button id="complex_fairness" class="metricButton">Fairness</button>
+                        <div id="complex_fairness_box" class="hiddenMetrics" hidden>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="BiasDisparityBD" value="BiasDisparityBD">BiasDisparityBD
+                            <div class="variable_control" id="bdBDbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="ucn_BD" class="bdBDcontrol" hidden>user clustering name:</label>
+                                <input type="text" name="user_clustering_name_BD" placeholder="user clustering name" id="ucn_BD" class="bdBDcontrol" hidden>
+                                </div>
+                                <div  class="fairnessHiddenParms" >
+                                <label id="l_ucf_BD" for="ucf_BD" class="bdBDcontrol" hidden>user clustering file:</label>
+                                <input type="file" name="user_clustering_file_BD" class="bdBDcontrol" id="ucf_BD" hidden>
+                                </div>
+                                <div  class="fairnessHiddenParms">
+                                <label for="icn_BD" class="bdBDcontrol" hidden>item clustering name:</label>
+                                <input type="text" name="item_clustering_name_BD" placeholder="item clustering name" class="bdBDcontrol" id="icn_BD" hidden>
+                                </div>
+                                <div  class="fairnessHiddenParms">
+                                <label id="l_icf_BD" for="icf_BD" class="bdBDcontrol" hidden>item clustering file:</label>
+                                <input type="file" name="item_clustering_file_BD" class="bdBDcontrol" id="icf_BD" hidden>
+                                </div>
+                            </div>
+                            <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="BiasDisparityBR" value="BiasDisparityBR">BiasDisparityBR
+                            <div class="variable_control" id="bdBRbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="ucn_BR" class="bdBRcontrol" hidden>user clustering name: </label>
+                                <input type="text" name="user_clustering_name_BR" placeholder="user clustering name" id="ucn_BR" class="bdBRcontrol" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_ucf_BR" for="ucf_BR" class="bdBRcontrol" hidden>user clustering file:</label>
+                                <input type="file" name="user_clustering_file_BR" class="bdBRcontrol" id="ucf_BR" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label for="icn_BR" class="bdBRcontrol" hidden>item clustering name: </label>
+                                <input type="text" name="item_clustering_name_BR" placeholder="item clustering name" class="bdBRcontrol" id="icn_BR" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_icf_BR"for="icf_BR" class="bdBRcontrol" hidden>item clustering file:</label>
+                                <input type="file" name="item_clustering_file_BR" class="bdBRcontrol" id="icf_BR" hidden>
+                                </div>
+                            </div>
+                                <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="BiasDisparityBS" value="BiasDisparityBS">BiasDisparityBS
+                            <div class="variable_control" id="bdBSbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="ucn_BS" class="bdBScontrol" hidden>user clustering name:</label>
+                                <input type="text" name="user_clustering_name_BS" placeholder="user clustering name" class="bdBScontrol" id="ucn_BS" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_ucf_BS" for="ucf_BS" class="bdBScontrol" hidden>user clustering file:</label>
+                                <input type="file" name="user_clustering_file_BS" class="bdBScontrol" id="ucf_BS" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label for="icn_BS" class="bdBScontrol" hidden>item clustering name:</label>
+                                <input type="text" name="item_clustering_name_BS" placeholder="item clustering name" class="bdBScontrol" id="icn_BS" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_icf_BS" for="icf_BS" class="bdBScontrol" hidden>item clustering file:</label>
+                                <input type="file" name="item_clustering_file_BS" class="bdBScontrol" id="icf_BS" hidden>
+                                </div>
+                            </div>
+                                <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="ItemMADranking" value="ItemMADranking">ItemMADranking
+                            <div class="variable_control" id="iMADrankingbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="cn_iMADranking" class="iMADrankingControl" hidden>clustering name: </label>
+                                <input type="text" name="clustering_name_iMADranking" placeholder="clustering name" class="iMADrankingControl" id="cn_iMADranking" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_cf_iMADranking" for="cf_iMADranking" class="iMADrankingControl" hidden>clustering file:</label>
+                                <input type="file" name="clustering_file_iMADranking" class="iMADrankingControl" id="cf_iMADranking" hidden>
+                                </div>
+                            </div>
+                                <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="ItemMADrating" value="ItemMADrating">ItemMADrating
+                            <div class="variable_control" id="iMADratingbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="cn_iMADrating" class="iMADratingControl" hidden>clustering name:</label>
+                                <input type="text" name="clustering_name_iMADrating" placeholder="clustering name" class="iMADratingControl" id="cn_iMADrating" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_cf_iMADrating" for="cf_iMADrating" class="iMADratingControl" hidden>clustering file:</label>
+                                <input type="file" name="clustering_file_iMADrating" class="iMADratingControl" id="cf_iMADrating" hidden>
+                                </div>
+                                </div>
+                                <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="UserMADranking" value="UserMADranking">UserMADranking
+                            <div class="variable_control" id="uMADrankingbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="cn_uMADranking" class="uMADrankingControl" hidden>clustering name:</label>
+                                <input type="text" name="clustering_name_uMADranking" placeholder="clustering name" class="uMADrankingControl" id="cn_uMADranking" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_cf_uMADranking" for="cf_uMADranking" class="uMADrankingControl" hidden>clustering file:</label>
+                                <input type="file" name="clustering_file_uMADranking" class="uMADrankingControl" id="cf_uMADranking" hidden>
+                                </div>
+                            </div>
+                                <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="UserMADrating" value="UserMADrating">UserMADrating
+                                <div class="variable_control" id="uMADratingbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="cn_uMADrating" class="uMADratingControl" hidden>clustering name:</label>
+                                <input type="text" name="clustering_name_uMADrating" placeholder="clustering name" class="uMADratingControl" id="cn_uMADrating" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_cf_uMADrating" for="cf_uMADrating" class="uMADratingControl" hidden>clustering file:</label>
+                                <input type="file" name="clustering_file_uMADrating" class="uMADratingControl" id="cf_uMADrating" hidden>
+                                </div>
+                                </div>
+                                <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="REO" value="REO">REO
+                            <div class="variable_control" id="REObox">
+                                <div class="fairnessHiddenParms">
+                                <label for="cn_REO" class="REOcontrol" hidden>clustering name:</label>
+                                <input type="text" name="clustering_name_REO" placeholder="clustering name" class="REOcontrol" id="cn_REO" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_cf_REO" for="cf_REO" class="REOcontrol" hidden>clustering file:</label>
+                                <input type="file" name="clustering_file_REO" class="REOcontrol" id="cf_REO" hidden>
+                                </div>
+                            </div>
+                                <br/>
+                            <input type="checkbox" class="inputCheck" name="complex_metrics" id="RSP" value="RSP">RSP
+                            <div class="variable_control" id="RSPbox">
+                                <div class="fairnessHiddenParms">
+                                <label for="cn_RSP" class="RSPcontrol" hidden>clustering name:</label>
+                                <input type="text" name="clustering_name_RSP" placeholder="clustering name" class="RSPcontrol" id="cn_RSP" hidden>
+                                </div>
+                                <div class="fairnessHiddenParms">
+                                <label id="l_cf_RSP" for="cf_RSP" class="RSPcontrol" hidden>clustering file:</label>
+                                <input type="file" name="clustering_file_RSP" class="RSPcontrol" id="cf_RSP" hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="complex_metrics_box">
+                            <button id="complex_novelty" class="metricButton">Novelty</button>
+                                <div id="complex_novelty_box" class="hiddenMetrics" hidden>
+                                    <input type="checkbox" class="inputCheck" name="complex_metrics" id="ExtendedEFD" value="ExtendedEFD">ExtendedEFD
+                                    <input type="checkbox" class="inputCheck" name="complex_metrics" id="ExtendedEPC" value="ExtendedEPC">ExtendedEPC
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                <div id="submit_div">
+                    <input type="submit" class="submitButton" value="SUBMIT">
+                     <div class="center" id="load_div" hidden>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    </div>
+                </div>
+
+            </form>
+            <div id="result_div" hidden>
+                <p id="result_text"></p>
+                <button id="download" class="result_button">Download log</button>
+                <button onclick="location.href='/evaluation';" class="result_button">New Evaluation</button>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="../static/script/FileSaver.js"></script>
+    <script  src="../static/script/evscript.js"></script>
+ {%endblock%}

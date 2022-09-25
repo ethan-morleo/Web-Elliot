@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="../../static/CSS/main.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h1>Il preprocessing del dataset è andato a buon fine!</h1>
+        <p>E' stato realizzato il seguente dizionario di configurazione:</p><br/>
+        {{ config }} <br/>
+    </div>
+    <div class="row">
+
+        <p>Il dataset preprocessato è disponibile al seguente link:</p>
+        <a href="/api/v1/preprocessing/download/{{ PP }}" title="preprocessed_dataset" class="btn btn-primary">Preprocessed
+            data folder</a>
+    </div>
+</div>
+{% endblock %}

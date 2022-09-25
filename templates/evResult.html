@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="../../static/CSS/main.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h1>La valutazione è andata a buon fine!</h1>
+        <p>Abbiamo ottenuti i seguenti risultati:</p><br/>
+        {{result}} <br/>
+    </div>
+
+</div>
+{% endblock %}
